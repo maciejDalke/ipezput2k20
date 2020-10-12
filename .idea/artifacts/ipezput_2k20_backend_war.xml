@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ipezput-2k20-backend:war">
+    <output-path>$PROJECT_DIR$/ipezput-2k20-backend/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>ipezput-2k20-backend</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="ipezput2k20-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="ipezput-2k20-backend:war exploded" />
+    </root>
+  </artifact>
+</component>
