@@ -10,7 +10,7 @@
     </parent>
     <groupId>pl.meklad</groupId>
     <artifactId>ipezput2k20</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>IPEZ PUT 2020</name>
     <description>Program magisterski Maciej Stanisław Dalke</description>
@@ -44,10 +44,10 @@
         </dependency>
 
         <!--   OPTIONAL-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+<!--        </dependency>-->
 
 <!--SECURITY-->
         <dependency>
@@ -66,8 +66,15 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.0.0.GA</version>
+        </dependency>
 
-<!--DATABASE-->
+
+        <!--DATABASE-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
