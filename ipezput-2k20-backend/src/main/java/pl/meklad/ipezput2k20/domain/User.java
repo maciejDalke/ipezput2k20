@@ -1,33 +1,30 @@
-package pl.meklad.ipezput2k20.login.domain;
+package pl.meklad.ipezput2k20.domain;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
-import org.checkerframework.common.aliasing.qual.Unique;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import pl.meklad.ipezput2k20.login.enums.UserRole;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
-@Entity
 @Data
+@Entity
 @SequenceGenerator(name = "userSeq", sequenceName = "user_seq", allocationSize = 1, schema = "public")
 @Table(name = "users")
-public class Users {
+public class User {
     @Id
     @GeneratedValue(generator = "userSeq")
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "name")
-    private String name;
+    @NotNull
+    @Column(name = "first_name")
+    private String firstName;
 
-    @Column(name = "surname")
-    private String surname;
+    @Column(name = "last_name")
+    private String lastName;
 
-    @Unique
     @Column(name = "email")
     private String email;
 
@@ -48,15 +45,13 @@ public class Users {
     @Column(name = "modify_time")
     private Timestamp modifyTime;
 
-    @NotNull
-    @Unique
-    @Size(min = 4,max = 30,message = "Invalid userName")
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "username")
+    private String username;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role")
     private UserRole userRole;
 
-
+    @Column(name = "real_password")
+    private String realPassword;
 }

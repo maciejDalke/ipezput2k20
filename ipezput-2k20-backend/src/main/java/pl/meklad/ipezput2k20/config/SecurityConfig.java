@@ -1,4 +1,4 @@
-package pl.meklad.ipezput2k20.login.security.config;
+package pl.meklad.ipezput2k20.config;
 
 import org.springframework.context.annotation.Configuration;
 
