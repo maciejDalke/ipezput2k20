@@ -1,4 +1,4 @@
-package pl.meklad.ipezput2k20.domain;
+package pl.meklad.ipezput2k20.model.domain;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,11 +8,11 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
-@SequenceGenerator(name = "test_doneSeq", sequenceName = "test_done_seq", allocationSize = 1, schema = "public")
+@SequenceGenerator(name = "testDoneSeq", sequenceName = "test_done_seq", allocationSize = 1, schema = "public")
 @Table(name = "tests_done")
 public class TestDone {
     @Id
-    @GeneratedValue(generator = "role_in_groupSeq")
+    @GeneratedValue(generator = "testDoneSeq")
     @Column(name = "test_done_id")
     private Long testDoneId;
 

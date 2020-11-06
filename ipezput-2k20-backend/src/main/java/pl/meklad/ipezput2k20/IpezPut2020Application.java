@@ -17,7 +17,7 @@ public class IpezPut2020Application {
     @Bean
     @Qualifier(value = "DefaultMapper")
     public ModelMapper getModelMapper() {
-        ModelMapper modelmapper =new ModelMapper();
+        ModelMapper modelmapper = new ModelMapper();
         modelmapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         return modelmapper;
     }

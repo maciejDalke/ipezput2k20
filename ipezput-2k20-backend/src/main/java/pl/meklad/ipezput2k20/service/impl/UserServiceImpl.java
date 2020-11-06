@@ -1,18 +1,26 @@
 package pl.meklad.ipezput2k20.service.impl;
 
+import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.meklad.ipezput2k20.domain.User;
 import pl.meklad.ipezput2k20.dto.UserDTO;
+import pl.meklad.ipezput2k20.model.domain.User;
 import pl.meklad.ipezput2k20.repo.UserRepo;
 import pl.meklad.ipezput2k20.service.UserService;
+import pl.meklad.ipezput2k20.util.TPage;
 
-import java.util.Objects;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static pl.meklad.ipezput2k20.domain.UserRole.*;
+import static pl.meklad.ipezput2k20.model.enums.UserRole.*;
 
 /**
  * Create by dev on 13.10.2020
@@ -20,29 +28,71 @@ import static pl.meklad.ipezput2k20.domain.UserRole.*;
 @Service
 public class UserServiceImpl implements UserService {
 
-    final private ModelMapper modelMapper;
-    final private UserRepo userRepo;
+    private final ModelMapper modelMapper;
+    private final UserRepo userRepo;
+    private final AuthenticationManager authenticationManager;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(ModelMapper modelMapper, UserRepo userRepo) {
+    public UserServiceImpl(ModelMapper modelMapper,
+                           UserRepo userRepo,
+                           AuthenticationManager authenticationManager,
+                           BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.modelMapper = modelMapper;
         this.userRepo = userRepo;
+        this.authenticationManager = authenticationManager;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    @Override
+    public Iterable<UserDTO> findAllUsers() {
+        return userRepo.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
+    }
 
     @Override
-    public UserDTO addUser(UserDTO userDTO) {
+    public TPage<UserDTO> getAllPageable(Pageable pageable) throws NotFoundException {
+        try {
+            Page<User> page = userRepo.findAll(PageRequest.of(pageable.getPageNumber(),
+                    pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "userId")));
+            TPage<UserDTO> tPage = new TPage<UserDTO>();
+            UserDTO[] studentDtos = modelMapper.map(page.getContent(), UserDTO[].class);
+
+            tPage.setStat(page, Arrays.asList(studentDtos));
+            return tPage;
+        } catch (Exception e) {
+            throw new NotFoundException("User email dosen't exist : " + e);
+        }
+    }
+
+    @Override
+    public Optional<UserDTO> findByUserId(Long userId) {
+        return Optional.of(convertToDto(userRepo.findById(userId).orElseThrow(IllegalArgumentException::new)));
+    }
+
+    @Override
+    public UserDTO findByUsername(String username) throws NotFoundException {
+        try {
+            User user = userRepo.findByUsername(username);
+            UserDTO userDto = convertToDto(user);
+            return userDto;
+        } catch (Exception e) {
+            throw new NotFoundException("User dosen't exist with this name called : " + username);
+        }
+    }
+
+    @Override
+    public UserDTO createUser(UserDTO userDTO) {
         User user = convertToEntity(userDTO);
         return convertToDto(userRepo.save(user));
     }
 
     @Override
-    public UserDTO addTeacher(String email) {
+    public UserDTO createTeacher(String email) {
         String temporaryPassword = generateTemporaryPassword(12);
         UserDTO userDTO = new UserDTO(getFirstOrLastOrUserName(email, 'f'),
                 getFirstOrLastOrUserName(email, 'l'),
                 email,
-                temporaryPassword,
+                bCryptPasswordEncoder.encode(temporaryPassword),
                 null,
                 true,
                 getFirstOrLastOrUserName(email, 'u'),
@@ -53,70 +103,63 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO addStudent(String email, Long studentId) {
+    public UserDTO createStudent(String email, Long studentId) {
         String temporaryPassword = generateTemporaryPassword(10);
         UserDTO userDTO;
-        if (Objects.equals(email.split("@")[1].split("\\.")[0], "student")) {
-            userDTO = new UserDTO(
-                    getFirstOrLastOrUserName(email, 'n'),
-                    getFirstOrLastOrUserName(email, 's'),
-                    email,
-                    temporaryPassword,
-                    studentId,
-                    true,
-                    getFirstOrLastOrUserName(email, 'u'),
-                    STUDENT,
-                    temporaryPassword);
-        } else if (Objects.equals(email.split("@")[1].split("\\.")[0], "doctorate")) {
-            userDTO = new UserDTO(
-                    getFirstOrLastOrUserName(email, 'n'),
-                    getFirstOrLastOrUserName(email, 's'),
-                    email,
-                    temporaryPassword,
-                    studentId,
-                    true,
-                    getFirstOrLastOrUserName(email, 'u'),
-                    PHD_STUDENT,
-                    temporaryPassword);
-        } else {
-            userDTO = new UserDTO(
-                    getFirstOrLastOrUserName(email, 'n'),
-                    getFirstOrLastOrUserName(email, 's'),
-                    email,
-                    temporaryPassword,
-                    studentId,
-                    true,
-                    getFirstOrLastOrUserName(email, 'u'),
-                    GUEST,
-                    temporaryPassword);
+        switch (email.split("@")[1].split("\\.")[0]) {
+            case "student":
+                userDTO = new UserDTO(
+                        getFirstOrLastOrUserName(email, 'n'),
+                        getFirstOrLastOrUserName(email, 's'),
+                        email,
+                        bCryptPasswordEncoder.encode(temporaryPassword),
+                        studentId,
+                        true,
+                        getFirstOrLastOrUserName(email, 'u'),
+                        STUDENT,
+                        temporaryPassword);
+                break;
+            case "doctorate":
+                userDTO = new UserDTO(
+                        getFirstOrLastOrUserName(email, 'n'),
+                        getFirstOrLastOrUserName(email, 's'),
+                        email,
+                        temporaryPassword,
+                        studentId,
+                        true,
+                        getFirstOrLastOrUserName(email, 'u'),
+                        PHD_STUDENT,
+                        temporaryPassword);
+                break;
+            default:
+                userDTO = new UserDTO(
+                        getFirstOrLastOrUserName(email, 'n'),
+                        getFirstOrLastOrUserName(email, 's'),
+                        email,
+                        bCryptPasswordEncoder.encode(temporaryPassword),
+                        studentId,
+                        true,
+                        getFirstOrLastOrUserName(email, 'u'),
+                        GUEST,
+                        temporaryPassword);
+                break;
         }
         return convertToDto(userRepo.save(convertToEntity(userDTO)));
     }
 
     @Override
-    public Iterable<UserDTO> findAllUsers() {
-        return userRepo.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
+    public UserDTO updateUser(UserDTO userDTO, Long userId) throws NotFoundException {
+        try {
+            User user = convertToEntity(userDTO);
+            user.setUserId(userId);
+            return convertToDto(userRepo.save(user));
+        } catch (Exception e) {
+            throw new NotFoundException("User dosen't exist with this id : " + userId);
+        }
     }
 
     @Override
-    public Optional<UserDTO> findByUsername(String username) {
-        return Optional.of(convertToDto(userRepo.findByUsername(username).orElseThrow()));
-    }
-
-    @Override
-    public Optional<UserDTO> findByUserId(Long userId) {
-        return Optional.of(convertToDto(userRepo.findById(userId).orElseThrow()));
-    }
-
-    @Override
-    public UserDTO updateUser(UserDTO userDTO, Long userId) {
-        User user = convertToEntity(userDTO);
-        user.setUserId(userId);
-        return convertToDto(userRepo.save(user));
-    }
-
-    @Override
-    public boolean deleteByUserId(Long userId) {
+    public boolean deleteUserByUserId(Long userId) {
         if (!userRepo.existsById(userId))
             return false;
         else userRepo.deleteById(userId);

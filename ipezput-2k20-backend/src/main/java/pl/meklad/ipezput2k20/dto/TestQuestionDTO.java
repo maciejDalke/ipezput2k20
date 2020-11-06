@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Create by dev on 06.11.2020
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenResponse {
-    private String username;
-    private String token;
+public class TestQuestionDTO {
+    private Long question4TestId;
+    private Long testId;
+    private Long questionId;
 }

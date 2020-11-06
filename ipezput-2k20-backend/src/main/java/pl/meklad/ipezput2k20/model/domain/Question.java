@@ -1,6 +1,7 @@
-package pl.meklad.ipezput2k20.domain;
+package pl.meklad.ipezput2k20.model.domain;
 
 import lombok.Data;
+import pl.meklad.ipezput2k20.model.enums.QuestionType;
 
 import javax.persistence.*;
 

@@ -1,5 +1,6 @@
 package pl.meklad.ipezput2k20.api;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,30 +41,28 @@ public class UserController {
         return ResponseEntity.ok(userService.findByUserId(userId).orElseThrow());
     } //ok
 
-    @PostMapping(value = "addStudent")
-    public ResponseEntity<UserDTO> addStudent(@RequestParam String email,
+    @PostMapping(value = "createStudent")
+    public ResponseEntity<UserDTO> createTeacher(@RequestParam String email,
                                               @RequestParam Long studentId) {
-        return ResponseEntity.ok(userService.addStudent(email, studentId));
+        return ResponseEntity.ok(userService.createStudent(email, studentId));
     }
 
-    @PostMapping(value = "addTeacher")
-    public ResponseEntity<UserDTO> addTeacher(@RequestParam String email) {
-        return ResponseEntity.ok(userService.addTeacher(email));
+    @PostMapping(value = "createTeacher")
+    public ResponseEntity<UserDTO> createTeacher(@RequestParam String email) {
+        return ResponseEntity.ok(userService.createTeacher(email));
     }
 
     @PutMapping(path = "{userId}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable("userId") Long userId,
-                                              @RequestBody UserDTO userDTO) {
+                                              @RequestBody UserDTO userDTO) throws NotFoundException {
         return ResponseEntity.ok(userService.updateUser(userDTO, userId));
     }
 
     @DeleteMapping(path = "{userId}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("userId") Long userId) {
-        boolean isRemoved = userService.deleteByUserId(userId);
+        boolean isRemoved = userService.deleteUserByUserId(userId);
         if (!isRemoved)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 }

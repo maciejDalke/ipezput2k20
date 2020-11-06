@@ -1,4 +1,4 @@
-package pl.meklad.ipezput2k20.domain;
+package pl.meklad.ipezput2k20.model.enums;
 
 /**
  * Create by dev on 24.10.2020

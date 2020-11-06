@@ -1,7 +1,10 @@
 package pl.meklad.ipezput2k20.service;
 
+import javassist.NotFoundException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.meklad.ipezput2k20.dto.UserDTO;
+import pl.meklad.ipezput2k20.util.TPage;
 
 import java.util.Optional;
 
@@ -11,16 +14,16 @@ import java.util.Optional;
 @Service
 public interface UserService {
 
-    UserDTO addUser(UserDTO userDTO);
-    UserDTO addTeacher(String email);
-    UserDTO addStudent(String email, Long studentId);
+    UserDTO createUser(UserDTO userDTO);
+    UserDTO createTeacher(String email);
+    UserDTO createStudent(String email, Long studentId);
 
     Iterable<UserDTO> findAllUsers();
-    Optional<UserDTO> findByUsername (String userName);
+    TPage<UserDTO> getAllPageable(Pageable pageable) throws NotFoundException;
     Optional<UserDTO> findByUserId (Long userId);
-    UserDTO updateUser(UserDTO userDTO, Long userId);
+    UserDTO findByUsername (String username) throws NotFoundException;
 
-    boolean deleteByUserId(Long userId);
+    UserDTO updateUser(UserDTO userDTO, Long userId) throws NotFoundException;
 
-
+    boolean deleteUserByUserId(Long userId);
 }

@@ -1,9 +1,10 @@
-package pl.meklad.ipezput2k20.domain;
+package pl.meklad.ipezput2k20.model.domain;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import pl.meklad.ipezput2k20.model.enums.UserRole;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

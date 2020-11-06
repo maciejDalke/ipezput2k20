@@ -3,13 +3,11 @@ package pl.meklad.ipezput2k20.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import pl.meklad.ipezput2k20.domain.UserRole;
+import pl.meklad.ipezput2k20.model.enums.UserRole;
 
 import java.sql.Timestamp;
 
 @Data
-@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
