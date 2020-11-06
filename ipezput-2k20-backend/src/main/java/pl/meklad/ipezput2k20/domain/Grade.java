@@ -32,8 +32,9 @@ public class Grade {
     @Column(name = "description")
     private String description;
 
+    @Enumerated
     @Column(name = "type")
-    private String type;
+    private GradeType type;
 
     @Column(name = "weight")
     private Long weight;
