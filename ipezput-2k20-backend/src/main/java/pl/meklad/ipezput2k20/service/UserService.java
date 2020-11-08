@@ -26,4 +26,5 @@ public interface UserService {
     UserDTO updateUser(UserDTO userDTO, Long userId) throws NotFoundException;
 
     boolean deleteUserByUserId(Long userId);
+//    Boolean register(RegistrationRequest request) throws Exception;
 }

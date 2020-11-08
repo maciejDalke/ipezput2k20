@@ -7,8 +7,7 @@ import lombok.*;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @ToString
 public class LoginRequest {
     private String username;

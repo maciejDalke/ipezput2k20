@@ -9,4 +9,9 @@ import pl.meklad.ipezput2k20.model.domain.Group;
  */
 @Repository
 public interface GroupRepo extends JpaRepository<Group,Long> {
+    Iterable<Group> findAllByName (String name);
+
+//    @Query("select u from User u where u.username like %:username%")
+//    List<Group> getByUsername(@Param("username") String username);
+
 }

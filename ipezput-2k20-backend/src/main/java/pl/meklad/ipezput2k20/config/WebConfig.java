@@ -20,7 +20,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
         return new Class[] {WebConfig.class};
     }
 
-
     @Override
     protected String[] getServletMappings() {
         return new String[] {"/api/user/hello"};

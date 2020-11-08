@@ -15,6 +15,10 @@ public final class ApiPaths {
         public static final String CTRL = BASE_PATH + "/user";
     }
 
+    public static final class SubjectCtrl {
+        public static final String CTRL = BASE_PATH + "/subject";
+    }
+
     public static final class GradeCtrl {
         public static final String CTRL = BASE_PATH + "/grade";
     }

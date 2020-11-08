@@ -16,4 +16,7 @@ public class Subject {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "shortcut")
+    private String shortcut;
 }

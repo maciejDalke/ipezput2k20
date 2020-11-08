@@ -1,5 +1,6 @@
 package pl.meklad.ipezput2k20.model.domain;
 
+import com.sun.istack.Nullable;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -24,9 +25,11 @@ public class Grade {
     @Column(name = "user_id")
     private Long userId;
 
+    @Nullable
     @Column(name = "test_id")
     private Long testId;
 
+    @Nullable
     @Column(name = "report_id")
     private Long reportId;
 

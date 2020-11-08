@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Create by dev on 06.11.2020
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubjectDTO {
-    private Long subjectId;
-    private String name;
-    private String shortcut;
+public class RegistrationRequest {
+    private String username;
+    private String email;
+    private String password;
 }

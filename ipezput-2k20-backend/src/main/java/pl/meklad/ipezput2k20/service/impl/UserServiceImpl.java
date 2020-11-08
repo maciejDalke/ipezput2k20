@@ -166,6 +166,26 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+//    @Transactional
+//    public Boolean register(RegistrationRequest request) throws Exception {
+//
+//        List<User> userList = userRepo.findByEmail(request.getUsername());
+//        if (userList.size() > 0) {
+//            throw new Exception("User exist with this : " + request.getEmail());
+//        }
+//        if (userRepo.getByUsername(request.getUsername()).size() > 0) {
+//            throw new Exception("User exist with this name called : " + request.getUsername());
+//        }
+//        User user = new User();
+//        user.setRealPassword(request.getPassword());
+//        request.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
+//        // user = modelMapper.map(registirationRequest, User.class);
+//        user.setUsername(request.getUsername());
+//        user.setEmail(request.getEmail());
+//        user.setPassword(request.getPassword());
+//        userRepo.save(user);
+//        return true;
+//    }
     //======================================================================================================================
     private String getFirstOrLastOrUserName(String email, char letter) { // FIXME: 24.10.2020 dodać lepszą logikę na sprawdzenie email
         String[] userName = email.split("@")[0].split("\\.");

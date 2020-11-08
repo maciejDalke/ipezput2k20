@@ -13,12 +13,11 @@ import pl.meklad.ipezput2k20.util.ApiPaths;
  * Create by dev on 13.10.2020
  */
 @RestController
-//@EnableWebSecurity
 @RequestMapping(ApiPaths.UserCtrl.CTRL)
 @CrossOrigin
 public class UserController {
 
-    final private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -41,9 +40,14 @@ public class UserController {
         return ResponseEntity.ok(userService.findByUserId(userId).orElseThrow());
     } //ok
 
+    @PostMapping(value = "createUser")
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.createUser(userDTO));
+    }
+
     @PostMapping(value = "createStudent")
-    public ResponseEntity<UserDTO> createTeacher(@RequestParam String email,
-                                              @RequestParam Long studentId) {
+    public ResponseEntity<UserDTO> createStudent(@RequestParam String email,
+                                                 @RequestParam Long studentId) {
         return ResponseEntity.ok(userService.createStudent(email, studentId));
     }
 
