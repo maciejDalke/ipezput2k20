@@ -24,7 +24,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(path = "/hello")
+    @GetMapping(value = "/hello")
     public String hello() {
         System.out.println("wypisz na konsoli???");
         return "Działa";
