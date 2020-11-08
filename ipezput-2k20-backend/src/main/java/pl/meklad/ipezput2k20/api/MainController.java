@@ -55,12 +55,4 @@ public class MainController {
         final String token = jwtTokenUtil.generateToken(user);
         return ResponseEntity.ok(new TokenResponse(user.getUsername(), token));
     }
-
-//    @RequestMapping(value = "/sign-up", method = RequestMethod.POST)
-//    public ResponseEntity<Boolean> signUp(@RequestBody RegistrationRequest registirationRequest) throws Exception {
-//
-//        Boolean result = userService.register(registirationRequest);
-//        return ResponseEntity.ok(result);
-//    }
-
 }
