@@ -10,6 +10,6 @@ import java.util.Optional;
  * Create by dev on 24.10.2020
  */
 @Repository
-public interface TestQuestionRepo extends JpaRepository<TestQuestions,Long> {
-    Optional<TestQuestions> findByTestId (Long testId);
+public interface TestQuestionRepo extends JpaRepository<TestQuestions, Long> {
+    Optional<TestQuestions> findByTestId(Long testId);
 }

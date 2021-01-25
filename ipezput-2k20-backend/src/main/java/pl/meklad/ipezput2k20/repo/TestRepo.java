@@ -10,6 +10,6 @@ import java.util.Optional;
  * Create by dev on 24.10.2020
  */
 @Repository
-public interface TestRepo extends JpaRepository<Test,Long> {
-    Optional<Test> findByGroupId (Long groupId);
+public interface TestRepo extends JpaRepository<Test, Long> {
+    Optional<Test> findByGroupId(Long groupId);
 }

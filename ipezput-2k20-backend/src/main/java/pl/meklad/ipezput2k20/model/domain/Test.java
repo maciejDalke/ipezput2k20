@@ -8,7 +8,10 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
-@SequenceGenerator(name = "testSeq", sequenceName = "test_seq", allocationSize = 1, schema = "public")
+@SequenceGenerator(name = "testSeq",
+                sequenceName = "test_seq",
+                allocationSize = 1,
+                schema = "public")
 @Table(name = "tests")
 public class Test {
     @Id

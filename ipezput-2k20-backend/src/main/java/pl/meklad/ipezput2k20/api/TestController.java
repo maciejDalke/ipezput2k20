@@ -34,7 +34,7 @@ public class TestController {
         this.testQuestionService = testQuestionService;
     }
 
-    //======================================================================================================================
+//======================================================================================================================
     @GetMapping(value = "all")
     public ResponseEntity<Iterable<TestDTO>> showAllTests() {
         return ResponseEntity.ok(testService.findAllTest());
@@ -45,7 +45,7 @@ public class TestController {
         return ResponseEntity.ok(testService.findByTestId(testId).orElseThrow());
     } //ok
 
-    @PostMapping(value = "createTest")
+    @PostMapping(path = "createTest")
     public ResponseEntity<TestDTO> createTest(@RequestBody TestDTO testDTO) {
         return ResponseEntity.ok(testService.createTest(testDTO));
     }
@@ -64,7 +64,7 @@ public class TestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //======================================================================================================================
+//======================================================================================================================
     @GetMapping(path = "done/all")
     public ResponseEntity<Iterable<TestDoneDTO>> showAllTestsDone() {
         return ResponseEntity.ok(testDoneService.findAllTestDone());
@@ -94,7 +94,7 @@ public class TestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //======================================================================================================================
+//======================================================================================================================
     @GetMapping(path = "question/all")
     public ResponseEntity<Iterable<TestQuestionDTO>> showAllTestQuestions() {
         return ResponseEntity.ok(testQuestionService.findAllTestQuestion());
@@ -112,7 +112,7 @@ public class TestController {
 
     @PutMapping(path = "question/{id}")
     public ResponseEntity<TestQuestionDTO> updateTestQuestion(@PathVariable("id") Long id,
-                                                               @RequestBody TestQuestionDTO testQuestionDTO) {
+                                                              @RequestBody TestQuestionDTO testQuestionDTO) {
         return ResponseEntity.ok(testQuestionService.updateTestQuestion(testQuestionDTO, id));
     }
 

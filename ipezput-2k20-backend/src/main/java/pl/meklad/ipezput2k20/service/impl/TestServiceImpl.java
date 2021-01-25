@@ -30,7 +30,7 @@ public class TestServiceImpl implements TestService {
     @Override
     public TestDTO createTest(TestDTO testDTO) {
         Test test = convertToEntity(testDTO);
-        return convertToDto(test);
+        return convertToDto(testRepo.save(test));
     }
 
     @Override

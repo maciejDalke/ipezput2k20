@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import pl.meklad.ipezput2k20.model.enums.UserRole;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 @Data
@@ -46,6 +47,8 @@ public class User {
     @Column(name = "modify_time")
     private Timestamp modifyTime;
 
+    @NotNull
+    @Size(min = 5, max = 30, message = "niedozwolona wielkość")
     @Column(name = "username")
     private String username;
 

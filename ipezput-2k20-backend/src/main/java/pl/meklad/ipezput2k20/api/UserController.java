@@ -1,7 +1,6 @@
 package pl.meklad.ipezput2k20.api;
 
 import javassist.NotFoundException;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import pl.meklad.ipezput2k20.util.ApiPaths;
 @RestController
 @RequestMapping(ApiPaths.UserCtrl.CTRL)
 @CrossOrigin
-@Log4j
 public class UserController {
 
     private final UserService userService;
